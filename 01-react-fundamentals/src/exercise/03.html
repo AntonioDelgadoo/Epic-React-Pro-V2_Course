@@ -8,10 +8,9 @@
 
   <!-- 🐨 add Babel to the page.
        💰 Here is the script tag that'll do the job:
+       -->
   <script src="https://unpkg.com/@babel/standalone@7.12.4/babel.js"></script>
-  -->
-
-  <script type="module">
+  <script type="text/babel">
     // 🐨 on the script tag above, change `type="module"`
     // to `type="text/babel"` so babel will compile this code for the browser to run.
 
@@ -21,12 +20,19 @@
       children: 'Hello World',
     })
 
+    const className = 'container'
+    const children = 'Hello World'
+    const elementJSX = <div className={className}>{children}</div>
+
+    const props = {className, children}
+    const elementJSX2 = <div {...props} />
+
     // 💰 there are a few subtle differences between JSX and HTML. One such
     // difference is how you apply a class to an element in JSX is by using
     // `className` rather than `class`!
     // 📜 You can learn the differences between JSX and HTML syntax from the React docs here:
     // https://react.dev/reference/react-dom/components/common
 
-    ReactDOM.createRoot(document.getElementById('root')).render(element)
+    ReactDOM.createRoot(document.getElementById('root')).render(elementJSX2)
   </script>
 </body>

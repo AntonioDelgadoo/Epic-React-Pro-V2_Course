@@ -15,15 +15,42 @@ function UsernameForm({onSubmitUsername}) {
   // 💰 For example: event.target.elements[0].value
   // 🐨 Call `onSubmitUsername` with the value of the input
 
-  // 🐨 add the onSubmit handler to the <form> below
+  const [form, setForm] = React.useState({
+    firstName: '',
+    userName: '',
+  })
 
-  // 🐨 make sure to associate the label to the input.
-  // to do so, set the value of 'htmlFor' prop of the label to the id of input
+  const handleChange = ({id, value}) => {
+    setForm(prevForm => ({
+      ...prevForm,
+      [id]: value,
+    }))
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    onSubmitUsername({...form})
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
-        <label>Username:</label>
-        <input type="text" />
+        <label htmlFor="firstName">First Name:</label>
+        <input
+          id="firstName"
+          type="text"
+          value={form.firstName}
+          onChange={e => handleChange(e.target)}
+        />
+      </div>
+      <div>
+        <label htmlFor="userName">User Name:</label>
+        <input
+          id="userName"
+          type="text"
+          value={form.userName}
+          onChange={e => handleChange(e.target)}
+        />
       </div>
       <button type="submit">Submit</button>
     </form>
@@ -31,7 +58,8 @@ function UsernameForm({onSubmitUsername}) {
 }
 
 function App() {
-  const onSubmitUsername = username => alert(`You entered: ${username}`)
+  const onSubmitUsername = ({firstName, userName}) =>
+    alert(`You entered: First Name: ${firstName} and UserName: ${userName}`)
   return <UsernameForm onSubmitUsername={onSubmitUsername} />
 }
 

@@ -11,15 +11,30 @@ const allItems = [
 ]
 
 function App() {
-  const [items, setItems] = React.useState(allItems)
+  const [items, setItems] = React.useState([...allItems])
 
-  function addItem() {
+  const addItem = () => {
     const itemIds = items.map(i => i.id)
     setItems([...items, allItems.find(i => !itemIds.includes(i.id))])
   }
 
-  function removeItem(item) {
-    setItems(items.filter(i => i.id !== item.id))
+  const removeItem = id => {
+    setItems(items.filter(i => i.id !== id))
+  }
+
+  const updateItem = ({name, value}) => {
+    // const updatedItems = items.map(item => {
+    //   let updatedItem = {...item}
+    //   if (item.id === name) {
+    //     updatedItem = {...updatedItem, value}
+    //   }
+    //   return updatedItem
+    // })
+    // setItems([...updatedItems])
+    const updatedItems = items.map(item =>
+      item.id === name ? {...item, value} : item,
+    )
+    setItems([...updatedItems])
   }
 
   return (
@@ -28,12 +43,17 @@ function App() {
         add item
       </button>
       <ul>
-        {items.map(item => (
+        {items.map(({id, value}) => (
           // 🐨 add a key prop to the <li> below. Set it to item.id
-          <li>
-            <button onClick={() => removeItem(item)}>remove</button>{' '}
-            <label htmlFor={`${item.id}-input`}>{item.value}</label>{' '}
-            <input id={`${item.id}-input`} defaultValue={item.value} />
+          <li key={id}>
+            <button onClick={() => removeItem(id)}>remove</button>{' '}
+            <label htmlFor={`${id}-input`}>{id}</label>{' '}
+            <input
+              id={`${id}-input`}
+              value={value}
+              name={id}
+              onChange={e => updateItem(e.target)}
+            />
           </li>
         ))}
       </ul>
